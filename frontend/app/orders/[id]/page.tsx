@@ -15,6 +15,8 @@ import {
   TrendingUp,
   Clock,
   AlertCircle,
+  DollarSign,
+  Activity
 } from "lucide-react";
 import {
   LineChart,
@@ -202,6 +204,62 @@ export default function OrderDetailPage() {
                 )}
               </div>
             </div>
+
+            {/* Middle row: Explainability & Financials */}
+            {pred && (
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginBottom: "1.25rem" }}>
+                {/* Explainability */}
+                <div className="card" style={{ padding: "1.25rem", background: pred.risk_status === "On Track" ? "var(--canvas)" : "var(--surface-soft)" }}>
+                  <div style={{ fontWeight: 600, fontSize: "0.8rem", color: "var(--muted)", marginBottom: "0.75rem", display: "flex", alignItems: "center", gap: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    <Activity size={13} /> Risk Analysis
+                  </div>
+                  {pred.explanation ? (
+                    <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
+                      <div style={{ marginTop: "2px" }}>
+                        <AlertCircle size={20} color={pred.risk_status === "High Risk" ? "var(--primary)" : "var(--amber)"} />
+                      </div>
+                      <div>
+                        <div className="text-body-md" style={{ color: "var(--ink)" }}>
+                          {pred.explanation}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ color: "var(--muted)", fontSize: "0.85rem" }}>
+                      Risk is low. No critical factors detected.
+                    </div>
+                  )}
+                </div>
+
+                {/* Financials */}
+                <div className="card" style={{ padding: "1.25rem" }}>
+                  <div style={{ fontWeight: 600, fontSize: "0.8rem", color: "var(--muted)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: 6, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+                    <DollarSign size={13} /> Margin Prediction Engine
+                  </div>
+                  {pred.expected_revenue !== null && pred.expected_revenue !== undefined ? (
+                    <>
+                      <StatRow label="Expected Revenue" value={`$${pred.expected_revenue.toLocaleString()}`} />
+                      <StatRow label="Expected Cost" value={`$${pred.expected_cost?.toLocaleString()}`} sub={`Yarn Cost: $${order.yarn_cost} / unit`} />
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", padding: "0.7rem 0", fontSize: "0.875rem" }}>
+                        <span style={{ color: "var(--muted)", fontWeight: 600 }}>Projected Margin</span>
+                        <div style={{ textAlign: "right" }}>
+                          <span style={{ fontWeight: 700, fontSize: "1.1rem", color: pred.margin_status === "Healthy" ? "var(--green)" : pred.margin_status === "Margin dropping" ? "var(--amber)" : "var(--primary)" }}>
+                            ${pred.margin?.toLocaleString()}
+                          </span>
+                          <div style={{ fontSize: "0.72rem", color: "var(--muted)", marginTop: "2px" }}>
+                            {pred.margin_status}
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <div style={{ color: "var(--muted)", fontSize: "0.85rem", padding: "1rem 0" }}>
+                      Margin data not available for this prediction.
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Charts row */}
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem", marginBottom: "1.25rem" }}>

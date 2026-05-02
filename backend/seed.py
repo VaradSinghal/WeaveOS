@@ -33,11 +33,13 @@ def seed():
     with open(orders_path, "rb") as f:
         records = parse_orders(f.read(), "sample_orders.csv")
 
+    import random
     rows = [
         {
             "order_id": r["order_id"],
             "product_name": r["product_name"],
             "quantity": r["quantity"],
+            "yarn_cost": round(random.uniform(15.0, 50.0), 2),
             "start_date": _iso(r["start_date"]),
             "due_date": _iso(r["due_date"]),
         }

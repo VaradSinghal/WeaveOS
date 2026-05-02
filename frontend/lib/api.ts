@@ -4,6 +4,7 @@ export interface Order {
   order_id: string;
   product_name: string;
   quantity: number;
+  yarn_cost?: number;
   start_date: string;
   due_date: string;
   prediction?: Prediction | null;
@@ -17,6 +18,11 @@ export interface Prediction {
   pct_time_elapsed: number;
   required_speed: number;
   actual_speed: number;
+  explanation?: string | null;
+  expected_cost?: number | null;
+  expected_revenue?: number | null;
+  margin?: number | null;
+  margin_status?: string | null;
   predicted_at?: string;
 }
 

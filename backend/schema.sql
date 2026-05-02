@@ -60,3 +60,14 @@ create index if not exists idx_alerts_generated_at  on alerts(generated_at desc)
 -- alter table production_logs enable row level security;
 -- alter table predictions     enable row level security;
 -- alter table alerts          enable row level security;
+
+-- ============================================================
+-- ALTER COMMANDS FOR V2 ENHANCEMENTS (EXPLAINABILITY & MARGINS)
+-- Run these if you have an existing database:
+-- ============================================================
+-- alter table orders add column if not exists yarn_cost float8 default 20.0;
+-- alter table predictions add column if not exists explanation text;
+-- alter table predictions add column if not exists expected_cost float8;
+-- alter table predictions add column if not exists expected_revenue float8;
+-- alter table predictions add column if not exists margin float8;
+-- alter table predictions add column if not exists margin_status text;

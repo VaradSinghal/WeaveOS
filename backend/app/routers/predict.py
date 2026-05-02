@@ -40,7 +40,7 @@ def _run_prediction(order: dict, db: Client) -> dict:
         due_date=date.fromisoformat(order["due_date"]),
         logs=logs,  # dicts with "daily_production" key
     )
-    result = predict_delay(feats)
+    result = predict_delay(feats, yarn_cost=order.get("yarn_cost", 20.0))
 
     pred_row = {
         "order_id": order["order_id"],
@@ -51,6 +51,11 @@ def _run_prediction(order: dict, db: Client) -> dict:
         "pct_time_elapsed": feats["pct_time_elapsed"],
         "required_speed": feats["required_speed"],
         "actual_speed": feats["actual_speed"],
+        "explanation": result.get("explanation"),
+        "expected_cost": result.get("expected_cost"),
+        "expected_revenue": result.get("expected_revenue"),
+        "margin": result.get("margin"),
+        "margin_status": result.get("margin_status"),
     }
     db.table("predictions").insert(pred_row).execute()
     return pred_row

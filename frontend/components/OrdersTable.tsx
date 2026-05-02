@@ -138,6 +138,7 @@ export default function OrdersTable({ orders, alerts = [] }: OrdersTableProps) {
               <th onClick={() => handleSort("delay_probability")}>
                 Delay Prob <SortIcon k="delay_probability" />
               </th>
+              <th>Margin</th>
               <th></th>
             </tr>
           </thead>
@@ -209,6 +210,31 @@ export default function OrdersTable({ orders, alerts = [] }: OrdersTableProps) {
                       <ProbBar prob={pred.delay_probability} />
                     ) : (
                       <span style={{ color: "var(--text-muted)", fontSize: "0.78rem" }}>—</span>
+                    )}
+                  </td>
+                  <td>
+                    {pred && pred.margin !== undefined && pred.margin !== null ? (
+                      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+                        <span style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--ink)" }}>
+                          ${pred.margin.toLocaleString()}
+                        </span>
+                        <span
+                          style={{
+                            fontSize: "0.7rem",
+                            fontWeight: 500,
+                            color:
+                              pred.margin_status === "Healthy"
+                                ? "var(--green)"
+                                : pred.margin_status === "Margin dropping"
+                                ? "var(--amber)"
+                                : "var(--primary)",
+                          }}
+                        >
+                          {pred.margin_status}
+                        </span>
+                      </div>
+                    ) : (
+                      <span style={{ color: "var(--muted)", fontSize: "0.78rem" }}>—</span>
                     )}
                   </td>
                   <td>

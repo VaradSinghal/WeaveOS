@@ -8,6 +8,7 @@ class OrderCreate(BaseModel):
     order_id: str
     product_name: str
     quantity: int
+    yarn_cost: float = 20.0
     start_date: date
     due_date: date
 
@@ -16,6 +17,7 @@ class OrderOut(BaseModel):
     order_id: str
     product_name: str
     quantity: int
+    yarn_cost: float = 20.0
     start_date: date
     due_date: date
     created_at: Optional[datetime] = None
@@ -49,6 +51,11 @@ class PredictionOut(BaseModel):
     pct_time_elapsed: float
     required_speed: float
     actual_speed: float
+    explanation: Optional[str] = None
+    expected_cost: Optional[float] = None
+    expected_revenue: Optional[float] = None
+    margin: Optional[float] = None
+    margin_status: Optional[str] = None
     predicted_at: Optional[datetime] = None
 
     model_config = {"from_attributes": True}
@@ -59,6 +66,7 @@ class OrderWithPrediction(BaseModel):
     order_id: str
     product_name: str
     quantity: int
+    yarn_cost: float = 20.0
     start_date: date
     due_date: date
     prediction: Optional[PredictionOut] = None
