@@ -37,6 +37,26 @@ export interface OCRResult {
   confidence: number;
 }
 
+export interface RecommendationItem {
+  code: string;
+  text: string;
+  priority: "high" | "medium";
+}
+
+export interface OrderAlert {
+  order_id: string;
+  product_name: string;
+  risk_status: string;
+  delay_probability: number;
+  actual_speed: number;
+  required_speed: number;
+  pct_completion: number;
+  pct_time_elapsed: number;
+  recommendations: RecommendationItem[];
+  alert_message: string;
+  generated_at: string;
+}
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_URL}${path}`, {
     ...options,
@@ -95,4 +115,8 @@ export const api = {
     if (!res.ok) throw new Error((await res.json()).detail || `HTTP ${res.status}`);
     return res.json() as Promise<OCRResult>;
   },
+
+  // Alerts
+  getAlerts: () => request<OrderAlert[]>("/alerts"),
+  getAlert: (id: string) => request<OrderAlert>(`/alerts/${id}`),
 };

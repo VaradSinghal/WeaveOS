@@ -75,3 +75,24 @@ class OCRResult(BaseModel):
     due_date: Optional[date] = None
     raw_text: Optional[str] = None
     confidence: float = 0.0
+
+
+# ── Alerts & Recommendations ─────────────────────────────────────────────────
+class RecommendationItem(BaseModel):
+    code: str           # INCREASE_LOOMS | RESCHEDULE | ESCALATE | MONITOR
+    text: str           # Human-readable recommendation
+    priority: str       # "high" | "medium"
+
+
+class OrderAlert(BaseModel):
+    order_id: str
+    product_name: str
+    risk_status: str
+    delay_probability: float
+    actual_speed: float
+    required_speed: float
+    pct_completion: float
+    pct_time_elapsed: float
+    recommendations: list[RecommendationItem]
+    alert_message: str          # WhatsApp-style formatted message
+    generated_at: str

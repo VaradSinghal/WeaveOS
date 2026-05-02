@@ -9,7 +9,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
-from app.routers import ingest, orders, predict
+from app.routers import alerts, ingest, orders, predict
 from app.services.ml import train_model
 
 logging.basicConfig(
@@ -35,6 +35,7 @@ app.add_middleware(
 app.include_router(ingest.router)
 app.include_router(orders.router)
 app.include_router(predict.router)
+app.include_router(alerts.router)
 
 
 @app.on_event("startup")

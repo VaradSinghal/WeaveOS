@@ -37,12 +37,26 @@ create table if not exists predictions (
   actual_speed        float8
 );
 
+-- 4. Alerts
+create table if not exists alerts (
+  id                  bigserial primary key,
+  order_id            text        not null references orders(order_id) on delete cascade,
+  risk_status         text        not null,
+  delay_probability   float8      not null,
+  recommendations     jsonb       not null default '[]'::jsonb,
+  alert_message       text        not null,
+  generated_at        timestamptz not null default now()
+);
+
 -- Indexes for common query patterns
 create index if not exists idx_prod_logs_order_id   on production_logs(order_id);
 create index if not exists idx_predictions_order_id on predictions(order_id);
 create index if not exists idx_predictions_at       on predictions(predicted_at desc);
+create index if not exists idx_alerts_order_id      on alerts(order_id);
+create index if not exists idx_alerts_generated_at  on alerts(generated_at desc);
 
 -- Enable Row Level Security (optional — remove if using service role key only)
 -- alter table orders          enable row level security;
 -- alter table production_logs enable row level security;
 -- alter table predictions     enable row level security;
+-- alter table alerts          enable row level security;

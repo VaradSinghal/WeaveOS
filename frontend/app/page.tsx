@@ -4,7 +4,8 @@ import { useState, useEffect, useCallback } from "react";
 import Sidebar from "@/components/Sidebar";
 import KpiCard from "@/components/KpiCard";
 import OrdersTable from "@/components/OrdersTable";
-import { api, Order } from "@/lib/api";
+import AlertsPanel from "@/components/AlertsPanel";
+import { api, Order, OrderAlert } from "@/lib/api";
 import {
   Package,
   CheckCircle2,
@@ -16,20 +17,28 @@ import {
 
 export default function DashboardPage() {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [alerts, setAlerts] = useState<OrderAlert[]>([]);
   const [loading, setLoading] = useState(true);
+  const [alertsLoading, setAlertsLoading] = useState(true);
   const [predicting, setPredicting] = useState(false);
   const [error, setError] = useState("");
 
   const loadOrders = useCallback(async () => {
     setLoading(true);
+    setAlertsLoading(true);
     setError("");
     try {
-      const data = await api.getOrders();
+      const [data, alertsData] = await Promise.all([
+        api.getOrders(),
+        api.getAlerts().catch(() => []), // gracefully fail alerts
+      ]);
       setOrders(data);
+      setAlerts(alertsData);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Failed to load orders");
+      setError(err instanceof Error ? err.message : "Failed to load data");
     } finally {
       setLoading(false);
+      setAlertsLoading(false);
     }
   }, []);
 
@@ -123,21 +132,26 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* Orders Table */}
-        {loading ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: 200,
-              gap: "1rem",
-            }}
-          >
-            <div className="spinner" />
-            <span style={{ color: "var(--text-muted)" }}>Loading orders…</span>
-          </div>
-        ) : orders.length === 0 ? (
+        {/* Main Content Grid */}
+        <div style={{ display: "grid", gridTemplateColumns: "380px 1fr", gap: "1.5rem", alignItems: "start" }}>
+          
+          <AlertsPanel alerts={alerts} loading={alertsLoading} />
+
+          {/* Orders Table */}
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: 200,
+                gap: "1rem",
+              }}
+            >
+              <div className="spinner" />
+              <span style={{ color: "var(--text-muted)" }}>Loading orders…</span>
+            </div>
+          ) : orders.length === 0 ? (
           <div
             className="card"
             style={{
@@ -176,9 +190,12 @@ export default function DashboardPage() {
                 All Orders
               </h2>
             </div>
-            <OrdersTable orders={orders} />
+            <div className="fade-in">
+              <OrdersTable orders={orders} alerts={alerts} />
+            </div>
           </div>
         )}
+        </div>
       </main>
     </div>
   );

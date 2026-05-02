@@ -2,8 +2,9 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Order } from "@/lib/api";
+import { Order, OrderAlert } from "@/lib/api";
 import RiskBadge from "./RiskBadge";
+import RecommendationChip from "./RecommendationChip";
 import { ArrowUpDown, ArrowUp, ArrowDown, ChevronRight } from "lucide-react";
 
 type SortKey = "order_id" | "due_date" | "pct_completion" | "delay_probability";
@@ -11,6 +12,7 @@ type SortDir = "asc" | "desc";
 
 interface OrdersTableProps {
   orders: Order[];
+  alerts?: OrderAlert[];
 }
 
 function ProbBar({ prob }: { prob: number }) {
@@ -31,7 +33,12 @@ function ProbBar({ prob }: { prob: number }) {
   );
 }
 
-export default function OrdersTable({ orders }: OrdersTableProps) {
+export default function OrdersTable({ orders, alerts = [] }: OrdersTableProps) {
+  const alertMap = useMemo(() => {
+    const m: Record<string, OrderAlert> = {};
+    for (const a of alerts) m[a.order_id] = a;
+    return m;
+  }, [alerts]);
   const [sortKey, setSortKey] = useState<SortKey>("delay_probability");
   const [sortDir, setSortDir] = useState<SortDir>("desc");
   const [filter, setFilter] = useState<string>("all");
@@ -127,6 +134,7 @@ export default function OrdersTable({ orders }: OrdersTableProps) {
               </th>
               <th>Time Elapsed</th>
               <th>Risk Status</th>
+              <th>Recommendations</th>
               <th onClick={() => handleSort("delay_probability")}>
                 Delay Prob <SortIcon k="delay_probability" />
               </th>
@@ -183,6 +191,20 @@ export default function OrdersTable({ orders }: OrdersTableProps) {
                     )}
                   </td>
                   <td>
+                    {(() => {
+                      const alert = alertMap[order.order_id];
+                      if (!alert || !alert.recommendations.length)
+                        return <span style={{ color: "var(--text-muted)", fontSize: "0.75rem" }}>—</span>;
+                      return (
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.3rem", maxWidth: 220 }}>
+                          {alert.recommendations.slice(0, 2).map((r) => (
+                            <RecommendationChip key={r.code} rec={r} compact />
+                          ))}
+                        </div>
+                      );
+                    })()}
+                  </td>
+                  <td>
                     {pred ? (
                       <ProbBar prob={pred.delay_probability} />
                     ) : (
@@ -210,7 +232,7 @@ export default function OrdersTable({ orders }: OrdersTableProps) {
             })}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={9} style={{ textAlign: "center", color: "var(--text-muted)", padding: "2rem" }}>
+                <td colSpan={10} style={{ textAlign: "center", color: "var(--text-muted)", padding: "2rem" }}>
                   No orders found.
                 </td>
               </tr>
