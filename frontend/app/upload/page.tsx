@@ -142,18 +142,20 @@ export default function UploadPage() {
                   <div style={{ fontSize: "0.85rem", color: "var(--text-secondary)", lineHeight: 1.8 }}>
                     <p style={{ marginBottom: "0.75rem" }}>Required columns:</p>
                     <table style={{ width: "100%", fontSize: "0.8rem", borderCollapse: "collapse" }}>
-                      {[
-                        ["order_id", "Unique order identifier"],
-                        ["product_name", "Fabric / product name"],
-                        ["quantity", "Total units to produce"],
-                        ["start_date", "Order start date"],
-                        ["due_date", "Delivery deadline"],
-                      ].map(([col, desc]) => (
-                        <tr key={col}>
-                          <td style={{ padding: "0.3rem 0.5rem 0.3rem 0", color: "var(--blue)", fontFamily: "monospace", fontWeight: 500, whiteSpace: "nowrap" }}>{col}</td>
-                          <td style={{ color: "var(--text-muted)" }}>{desc}</td>
-                        </tr>
-                      ))}
+                      <tbody>
+                        {[
+                          ["order_id", "Unique order identifier"],
+                          ["product_name", "Fabric / product name"],
+                          ["quantity", "Total units to produce"],
+                          ["start_date", "Order start date"],
+                          ["due_date", "Delivery deadline"],
+                        ].map(([col, desc]) => (
+                          <tr key={col}>
+                            <td style={{ padding: "0.3rem 0.5rem 0.3rem 0", color: "var(--blue)", fontFamily: "monospace", fontWeight: 500, whiteSpace: "nowrap" }}>{col}</td>
+                            <td style={{ color: "var(--text-muted)" }}>{desc}</td>
+                          </tr>
+                        ))}
+                      </tbody>
                     </table>
                     <p style={{ marginTop: "0.75rem", fontSize: "0.78rem", color: "var(--text-muted)" }}>
                       Date format: YYYY-MM-DD or DD/MM/YYYY
@@ -164,17 +166,19 @@ export default function UploadPage() {
                   <div style={{ fontSize: "0.85rem", color: "var(--text-secondary)", lineHeight: 1.8 }}>
                     <p style={{ marginBottom: "0.75rem" }}>Required columns:</p>
                     <table style={{ width: "100%", fontSize: "0.8rem", borderCollapse: "collapse" }}>
-                      {[
-                        ["order_id", "Matches order in orders table"],
-                        ["log_date", "Date of production entry"],
-                        ["daily_production", "Units produced that day"],
-                        ["machine_assigned", "Loom / machine ID (optional)"],
-                      ].map(([col, desc]) => (
-                        <tr key={col}>
-                          <td style={{ padding: "0.3rem 0.5rem 0.3rem 0", color: "var(--blue)", fontFamily: "monospace", fontWeight: 500, whiteSpace: "nowrap" }}>{col}</td>
-                          <td style={{ color: "var(--text-muted)" }}>{desc}</td>
-                        </tr>
-                      ))}
+                      <tbody>
+                        {[
+                          ["order_id", "Matches order in orders table"],
+                          ["log_date", "Date of production entry"],
+                          ["daily_production", "Units produced that day"],
+                          ["machine_assigned", "Loom / machine ID (optional)"],
+                        ].map(([col, desc]) => (
+                          <tr key={col}>
+                            <td style={{ padding: "0.3rem 0.5rem 0.3rem 0", color: "var(--blue)", fontFamily: "monospace", fontWeight: 500, whiteSpace: "nowrap" }}>{col}</td>
+                            <td style={{ color: "var(--text-muted)" }}>{desc}</td>
+                          </tr>
+                        ))}
+                      </tbody>
                     </table>
                   </div>
                 )}

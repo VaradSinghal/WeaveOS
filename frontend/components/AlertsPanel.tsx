@@ -39,7 +39,7 @@ export default function AlertsPanel({ alerts, loading }: AlertsPanelProps) {
       </div>
 
       {/* Body */}
-      <div style={{ padding: "var(--spacing-lg)", display: "flex", flexDirection: "column", gap: "var(--spacing-lg)" }}>
+      <div style={{ padding: "var(--spacing-lg)", display: "flex", flexDirection: "column", gap: "var(--spacing-lg)", maxHeight: "calc(100vh - 400px)", overflowY: "auto" }}>
         {loading ? (
           <div style={{ display: "flex", justifyContent: "center", padding: "var(--spacing-xl) 0" }}>
             <div className="spinner" />

@@ -111,20 +111,19 @@ def _format_whatsapp_message(order: dict, prediction: dict, recommendations: lis
     pct_comp = prediction["pct_completion"]
     pct_time = prediction["pct_time_elapsed"]
 
-    icon = "🔴" if risk == "High Risk" else "🟡"
-    header = f"{icon} *{risk.upper()} ALERT*"
+    header = f"[{risk.upper()} ALERT]"
 
-    rec_lines = "\n".join(f"  • {r.text}" for r in recommendations)
+    rec_lines = "\n".join(f"  - {r.text}" for r in recommendations)
 
     msg = (
         f"{header}\n"
-        f"─────────────────────────\n"
-        f"📦 Order: {order['order_id']}\n"
-        f"🏭 Product: {order['product_name']}\n"
-        f"📊 Delay Probability: {prob * 100:.0f}%\n"
-        f"─────────────────────────\n"
-        f"⚠️ Recommendations:\n{rec_lines}\n"
-        f"─────────────────────────\n"
-        f"✅ Completion: {pct_comp:.0f}%  |  ⏱ Time Elapsed: {pct_time:.0f}%"
+        f"-------------------------\n"
+        f"Order: {order['order_id']}\n"
+        f"Product: {order['product_name']}\n"
+        f"Delay Probability: {prob * 100:.0f}%\n"
+        f"-------------------------\n"
+        f"Recommendations:\n{rec_lines}\n"
+        f"-------------------------\n"
+        f"Completion: {pct_comp:.0f}%  |  Time Elapsed: {pct_time:.0f}%"
     )
     return msg

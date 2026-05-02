@@ -10,6 +10,7 @@ export default function TopNav() {
   const tabs = [
     { name: "Dashboard", href: "/" },
     { name: "Uploads", href: "/upload" },
+    { name: "Looms", href: "/looms" },
   ];
 
   return (

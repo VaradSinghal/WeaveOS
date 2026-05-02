@@ -82,7 +82,21 @@ export default function OrdersTable({ orders, alerts = [] }: OrdersTableProps) {
   const FILTERS = ["all", "High Risk", "At Risk", "On Track"];
 
   return (
-    <div className="card" style={{ overflow: "hidden" }}>
+    <div className="card" style={{ overflow: "hidden", padding: 0 }}>
+      {/* Header */}
+      <div
+        style={{
+          padding: "var(--spacing-lg)",
+          borderBottom: "1px solid var(--hairline)",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <h2 className="text-display-sm" style={{ color: "var(--ink)" }}>All Orders</h2>
+        <div className="text-body-sm" style={{ color: "var(--muted)", marginTop: "4px" }}>
+          Manage and prioritize your production queue
+        </div>
+      </div>
       {/* Filter tabs */}
       <div
         style={{

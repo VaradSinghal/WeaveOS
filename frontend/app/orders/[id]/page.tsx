@@ -36,13 +36,13 @@ function StatRow({ label, value, sub }: { label: string; value: string | number;
         justifyContent: "space-between",
         alignItems: "baseline",
         padding: "0.7rem 0",
-        borderBottom: "1px solid var(--border)",
+        borderBottom: "1px solid var(--hairline)",
         fontSize: "0.875rem",
       }}
     >
-      <span style={{ color: "var(--text-muted)" }}>{label}</span>
+      <span style={{ color: "var(--muted)" }}>{label}</span>
       <div style={{ textAlign: "right" }}>
-        <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>{value}</span>
+        <span style={{ fontWeight: 600, color: "var(--ink)" }}>{value}</span>
         {sub && <div style={{ fontSize: "0.72rem", color: "var(--text-muted)" }}>{sub}</div>}
       </div>
     </div>
@@ -271,15 +271,15 @@ export default function OrderDetailPage() {
                 {chartData.length > 0 ? (
                   <ResponsiveContainer width="100%" height={180}>
                     <LineChart data={chartData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                      <XAxis dataKey="date" tick={{ fontSize: 10, fill: "var(--text-muted)" }} tickFormatter={(v) => v.slice(5)} />
-                      <YAxis tick={{ fontSize: 10, fill: "var(--text-muted)" }} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--hairline)" />
+                      <XAxis dataKey="date" tick={{ fontSize: 10, fill: "var(--muted)" }} tickFormatter={(v) => v.slice(5)} />
+                      <YAxis tick={{ fontSize: 10, fill: "var(--muted)" }} />
                       <Tooltip
-                        contentStyle={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 }}
-                        labelStyle={{ color: "var(--text-secondary)" }}
+                        contentStyle={{ background: "var(--canvas)", border: "1px solid var(--hairline)", borderRadius: 8, fontSize: 12 }}
+                        labelStyle={{ color: "var(--muted)" }}
                       />
-                      <Line type="monotone" dataKey="cumulative" stroke="var(--blue)" strokeWidth={2} dot={false} name="Cumulative" />
-                      <Line type="monotone" dataKey="daily" stroke="var(--purple)" strokeWidth={1.5} dot={false} name="Daily" />
+                      <Line type="monotone" dataKey="cumulative" stroke="var(--legal-link)" strokeWidth={2} dot={false} name="Cumulative" />
+                      <Line type="monotone" dataKey="daily" stroke="var(--luxe)" strokeWidth={1.5} dot={false} name="Daily" />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
@@ -297,14 +297,14 @@ export default function OrderDetailPage() {
                 {probHistory.length > 0 ? (
                   <ResponsiveContainer width="100%" height={180}>
                     <LineChart data={probHistory}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                      <XAxis dataKey="time" tick={{ fontSize: 10, fill: "var(--text-muted)" }} />
-                      <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: "var(--text-muted)" }} unit="%" />
+                      <CartesianGrid strokeDasharray="3 3" stroke="var(--hairline)" />
+                      <XAxis dataKey="time" tick={{ fontSize: 10, fill: "var(--muted)" }} />
+                      <YAxis domain={[0, 100]} tick={{ fontSize: 10, fill: "var(--muted)" }} unit="%" />
                       <Tooltip
-                        contentStyle={{ background: "var(--bg-elevated)", border: "1px solid var(--border)", borderRadius: 8, fontSize: 12 }}
+                        contentStyle={{ background: "var(--canvas)", border: "1px solid var(--hairline)", borderRadius: 8, fontSize: 12 }}
                         formatter={(v) => [`${v}%`, "Delay Prob"]}
                       />
-                      <Line type="monotone" dataKey="probability" stroke="var(--red)" strokeWidth={2} dot={{ r: 3, fill: "var(--red)" }} name="Delay Prob" />
+                      <Line type="monotone" dataKey="probability" stroke="var(--primary)" strokeWidth={2} dot={{ r: 3, fill: "var(--primary)" }} name="Delay Prob" />
                     </LineChart>
                   </ResponsiveContainer>
                 ) : (
@@ -317,8 +317,8 @@ export default function OrderDetailPage() {
 
             {/* Raw logs table */}
             <div className="card" style={{ overflow: "hidden" }}>
-              <div style={{ padding: "1rem 1.25rem", borderBottom: "1px solid var(--border)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                <Calendar size={14} color="var(--blue)" />
+              <div style={{ padding: "1rem 1.25rem", borderBottom: "1px solid var(--hairline)", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                <Calendar size={14} color="var(--legal-link)" />
                 <span style={{ fontWeight: 600, fontSize: "0.85rem" }}>Production Log ({logs.length} entries)</span>
               </div>
               <div style={{ overflowX: "auto", maxHeight: 300, overflowY: "auto" }}>

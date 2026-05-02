@@ -291,6 +291,7 @@ body {
   border-bottom: 1px solid var(--hairline-soft);
   color: var(--ink);
   vertical-align: middle;
+  white-space: nowrap;
 }
 .data-table tr:last-child td {
   border-bottom: none;

@@ -98,7 +98,7 @@ export default function DashboardPage() {
         )}
 
         {/* KPI Cards */}
-        <div className="kpi-grid">
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "var(--spacing-xl)", marginBottom: "var(--spacing-xl)" }}>
           <KpiCard
             label="Total Orders"
             value={loading ? "…" : total}
@@ -130,7 +130,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Main Content Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "380px 1fr", gap: "1.5rem", alignItems: "start" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "380px minmax(0, 1fr)", gap: "var(--spacing-xl)", alignItems: "start" }}>
           
           <AlertsPanel alerts={alerts} loading={alertsLoading} />
 
@@ -169,27 +169,7 @@ export default function DashboardPage() {
           </div>
         ) : (
           <div className="fade-in">
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginBottom: "1rem",
-              }}
-            >
-              <h2
-                style={{
-                  fontWeight: 600,
-                  fontSize: "1rem",
-                  color: "var(--text-secondary)",
-                }}
-              >
-                All Orders
-              </h2>
-            </div>
-            <div className="fade-in">
-              <OrdersTable orders={orders} alerts={alerts} />
-            </div>
+            <OrdersTable orders={orders} alerts={alerts} />
           </div>
         )}
         </div>

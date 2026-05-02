@@ -63,6 +63,17 @@ export interface OrderAlert {
   generated_at: string;
 }
 
+export interface LoomStatus {
+  loom_id: string;
+  status: "Running" | "Idle" | "Maintenance";
+  current_order?: string | null;
+  efficiency: number;
+  daily_production: number;
+  uptime_hours: number;
+  vibration_level: number;
+  temperature: number;
+}
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_URL}${path}`, {
     ...options,
@@ -125,4 +136,7 @@ export const api = {
   // Alerts
   getAlerts: () => request<OrderAlert[]>("/alerts"),
   getAlert: (id: string) => request<OrderAlert>(`/alerts/${id}`),
+
+  // Looms
+  getLooms: () => request<LoomStatus[]>("/looms"),
 };
