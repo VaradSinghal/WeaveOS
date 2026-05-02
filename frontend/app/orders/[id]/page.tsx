@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import Sidebar from "@/components/Sidebar";
 import RiskBadge from "@/components/RiskBadge";
 import CompletionGauge from "@/components/CompletionGauge";
 import { api, Order, ProductionLog, Prediction } from "@/lib/api";
@@ -113,10 +112,8 @@ export default function OrderDetailPage() {
     }));
 
   return (
-    <div className="app-shell">
-      <Sidebar />
-      <main className="main-content">
-        {/* Back */}
+    <>
+      {/* Back */}
         <Link
           href="/"
           style={{
@@ -148,15 +145,14 @@ export default function OrderDetailPage() {
           <div className="fade-in">
             {/* Header */}
             <div
-              className="page-header"
-              style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}
+              style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "var(--spacing-xl)" }}
             >
               <div>
                 <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.3rem" }}>
-                  <h1 className="page-title" style={{ fontSize: "1.4rem" }}>{order.product_name}</h1>
+                  <h1 className="text-display-xl">{order.product_name}</h1>
                   {pred && <RiskBadge status={pred.risk_status} />}
                 </div>
-                <p className="page-subtitle" style={{ fontFamily: "monospace", fontSize: "0.85rem" }}>
+                <p className="text-body-md" style={{ fontFamily: "monospace", marginTop: "4px" }}>
                   {order.order_id}
                 </p>
               </div>
@@ -293,7 +289,6 @@ export default function OrderDetailPage() {
             </div>
           </div>
         ) : null}
-      </main>
-    </div>
+    </>
   );
 }

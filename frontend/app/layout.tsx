@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import TopNav from "@/components/TopNav";
 
 export const metadata: Metadata = {
   title: "WeaveOS – Textile Delay Prediction",
@@ -12,7 +13,14 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div className="app-shell">
+          <TopNav />
+          <main className="main-content">
+            {children}
+          </main>
+        </div>
+      </body>
     </html>
   );
 }

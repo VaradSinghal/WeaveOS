@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import Sidebar from "@/components/Sidebar";
 import KpiCard from "@/components/KpiCard";
 import OrdersTable from "@/components/OrdersTable";
 import AlertsPanel from "@/components/AlertsPanel";
@@ -66,17 +65,15 @@ export default function DashboardPage() {
   const highRisk = orders.filter((o) => o.prediction?.risk_status === "High Risk").length;
 
   return (
-    <div className="app-shell">
-      <Sidebar />
-      <main className="main-content">
-        {/* Header */}
-        <div
-          className="page-header"
-          style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}
-        >
-          <div>
-            <h1 className="page-title">Order Intelligence Dashboard</h1>
-            <p className="page-subtitle">
+    <>
+      {/* Header */}
+      <div
+        className="page-header"
+        style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "var(--spacing-xl)" }}
+      >
+        <div>
+          <h1 className="text-display-xl">Order Intelligence Dashboard</h1>
+          <p className="text-body-md" style={{ marginTop: "4px" }}>
               AI-powered delay risk prediction across all active factory orders
             </p>
           </div>
@@ -196,7 +193,6 @@ export default function DashboardPage() {
           </div>
         )}
         </div>
-      </main>
-    </div>
+    </>
   );
 }

@@ -89,7 +89,7 @@ export default function OrdersTable({ orders, alerts = [] }: OrdersTableProps) {
           display: "flex",
           gap: "0.5rem",
           padding: "1rem 1.25rem",
-          borderBottom: "1px solid var(--border)",
+          borderBottom: "1px solid var(--hairline)",
         }}
       >
         {FILTERS.map((f) => (
@@ -104,9 +104,9 @@ export default function OrdersTable({ orders, alerts = [] }: OrdersTableProps) {
               cursor: "pointer",
               border: "1px solid",
               transition: "all 0.15s",
-              background: filter === f ? "var(--blue)" : "transparent",
-              color: filter === f ? "white" : "var(--text-secondary)",
-              borderColor: filter === f ? "var(--blue)" : "var(--border)",
+              background: filter === f ? "var(--ink)" : "var(--canvas)",
+              color: filter === f ? "var(--canvas)" : "var(--ink)",
+              borderColor: filter === f ? "var(--ink)" : "var(--hairline)",
             }}
           >
             {f === "all" ? "All Orders" : f}

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Sidebar from "@/components/Sidebar";
 import UploadZone from "@/components/UploadZone";
 import { OCRResult } from "@/lib/api";
 import { FileSpreadsheet, ImageIcon, FileText, Info } from "lucide-react";
@@ -20,15 +19,13 @@ export default function UploadPage() {
   const [successMsg, setSuccessMsg] = useState("");
 
   return (
-    <div className="app-shell">
-      <Sidebar />
-      <main className="main-content">
-        <div className="page-header">
-          <h1 className="page-title">Upload Data</h1>
-          <p className="page-subtitle">
-            Import orders and production logs from Tally exports, Excel sheets, or scanned invoices
-          </p>
-        </div>
+    <>
+      <div style={{ marginBottom: "var(--spacing-xl)" }}>
+        <h1 className="text-display-xl">Upload Data</h1>
+        <p className="text-body-md" style={{ marginTop: "4px" }}>
+          Import orders and production logs from Tally exports, Excel sheets, or scanned invoices
+        </p>
+      </div>
 
         {/* Tab bar */}
         <div
@@ -194,7 +191,6 @@ export default function UploadPage() {
             )}
           </div>
         </div>
-      </main>
-    </div>
+    </>
   );
 }

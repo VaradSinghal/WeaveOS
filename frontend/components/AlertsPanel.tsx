@@ -1,7 +1,7 @@
 "use client";
 
 import { OrderAlert } from "@/lib/api";
-import { MessageCircle, Bell, Wifi } from "lucide-react";
+import { Bell } from "lucide-react";
 
 interface AlertsPanelProps {
   alerts: OrderAlert[];
@@ -10,84 +10,75 @@ interface AlertsPanelProps {
 
 function formatTime(iso: string) {
   try {
-    return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    return new Date(iso).toLocaleDateString([], { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
   } catch {
     return "";
   }
 }
 
 export default function AlertsPanel({ alerts, loading }: AlertsPanelProps) {
-  const highRisk = alerts.filter((a) => a.risk_status === "High Risk");
-  const atRisk = alerts.filter((a) => a.risk_status === "At Risk");
-
   return (
-    <div className="wa-panel fade-in">
-      {/* WhatsApp-style header */}
-      <div className="wa-header">
-        <div
-          style={{
-            width: 36,
-            height: 36,
-            borderRadius: "50%",
-            background: "rgba(255,255,255,0.15)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0,
-          }}
-        >
-          <Bell size={18} color="white" />
-        </div>
-        <div style={{ flex: 1 }}>
-          <div className="wa-header-title">WeaveOS Alert Bot</div>
-          <div className="wa-header-sub" style={{ display: "flex", alignItems: "center", gap: 4 }}>
-            <Wifi size={10} />
-            {loading
-              ? "Fetching alerts…"
-              : `${alerts.length} active alert${alerts.length !== 1 ? "s" : ""} · ${highRisk.length} high risk`}
+    <div className="card fade-in" style={{ padding: "0" }}>
+      {/* Header */}
+      <div
+        style={{
+          padding: "var(--spacing-lg)",
+          borderBottom: "1px solid var(--hairline)",
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+        }}
+      >
+        <Bell size={24} color="var(--ink)" />
+        <div>
+          <h2 className="text-display-sm" style={{ color: "var(--ink)" }}>Alerts</h2>
+          <div className="text-body-sm" style={{ color: "var(--muted)", marginTop: "4px" }}>
+            {loading ? "Fetching alerts…" : `${alerts.length} active alerts`}
           </div>
         </div>
-        {alerts.length > 0 && (
-          <span className="alert-count-badge">{alerts.length}</span>
-        )}
       </div>
 
-      {/* Message feed */}
-      <div className="wa-body">
+      {/* Body */}
+      <div style={{ padding: "var(--spacing-lg)", display: "flex", flexDirection: "column", gap: "var(--spacing-lg)" }}>
         {loading ? (
-          <div className="wa-empty">
-            <div className="spinner" style={{ margin: "0 auto 0.75rem" }} />
-            Loading alerts…
+          <div style={{ display: "flex", justifyContent: "center", padding: "var(--spacing-xl) 0" }}>
+            <div className="spinner" />
           </div>
         ) : alerts.length === 0 ? (
-          <div className="wa-empty">
-            <MessageCircle size={28} style={{ margin: "0 auto 0.5rem", display: "block", opacity: 0.3 }} />
-            No active alerts — all orders on track ✅
+          <div className="text-body-md" style={{ color: "var(--muted)", textAlign: "center", padding: "var(--spacing-xl) 0" }}>
+            No active alerts — all orders on track
           </div>
         ) : (
-          alerts.map((alert) => (
+          alerts.map((alert, index) => (
             <div
               key={alert.order_id}
-              className={`wa-bubble ${alert.risk_status === "High Risk" ? "high-risk" : "at-risk"}`}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px",
+                paddingBottom: index === alerts.length - 1 ? 0 : "var(--spacing-lg)",
+                borderBottom: index === alerts.length - 1 ? "none" : "1px solid var(--hairline-soft)",
+              }}
             >
-              <div className="wa-bubble-header">
-                <span style={{ fontSize: "1rem" }}>
-                  {alert.risk_status === "High Risk" ? "🔴" : "🟡"}
-                </span>
-                <span className="wa-bubble-order">{alert.order_id}</span>
-                <span
-                  style={{
-                    marginLeft: "auto",
-                    fontSize: "0.7rem",
-                    fontWeight: 600,
-                    color: alert.risk_status === "High Risk" ? "var(--red)" : "var(--amber)",
-                  }}
-                >
-                  {(alert.delay_probability * 100).toFixed(0)}% risk
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <span
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                      background: alert.risk_status === "High Risk" ? "var(--primary)" : "var(--amber)",
+                    }}
+                  />
+                  <span className="text-title-md">{alert.order_id}</span>
+                </div>
+                <span className="text-caption-sm" style={{ color: "var(--muted)" }}>
+                  {formatTime(alert.generated_at)}
                 </span>
               </div>
-              <div className="wa-bubble-body">{alert.alert_message}</div>
-              <div className="wa-bubble-time">{formatTime(alert.generated_at)}</div>
+              <div className="text-body-md">
+                {alert.alert_message}
+              </div>
             </div>
           ))
         )}

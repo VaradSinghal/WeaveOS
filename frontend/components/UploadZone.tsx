@@ -88,20 +88,20 @@ export default function UploadZone({ type, onSuccess, onOCRResult }: UploadZoneP
           {status === "loading" ? (
             <div className="spinner" />
           ) : (
-            <div style={{ width: 48, height: 48, borderRadius: 12, background: "var(--blue-dim)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <Icon size={22} color="var(--blue)" />
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: "var(--surface-strong)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Icon size={22} color="var(--ink)" />
             </div>
           )}
           <div>
-            <div style={{ fontWeight: 600, color: "var(--text-primary)", marginBottom: 4 }}>
+            <div style={{ fontWeight: 600, color: "var(--ink)", marginBottom: 4 }}>
               {isDragActive ? "Drop file here…" : status === "loading" ? "Processing…" : `Upload ${label}`}
             </div>
-            <div style={{ fontSize: "0.78rem", color: "var(--text-muted)" }}>
+            <div style={{ fontSize: "0.78rem", color: "var(--muted)" }}>
               {hint}
             </div>
           </div>
           {status === "idle" && (
-            <button className="btn btn-ghost" style={{ fontSize: "0.8rem" }}>
+            <button className="btn-secondary" style={{ fontSize: "0.8rem", padding: "8px 16px", height: "auto" }}>
               <Upload size={14} /> Browse files
             </button>
           )}
@@ -109,13 +109,13 @@ export default function UploadZone({ type, onSuccess, onOCRResult }: UploadZoneP
       </div>
 
       {status === "success" && (
-        <div className="alert alert-success fade-in">
+        <div className="fade-in" style={{ padding: "12px", background: "var(--surface-soft)", color: "var(--green)", borderRadius: "var(--rounded-sm)", display: "flex", gap: "8px", alignItems: "center", fontSize: "14px", border: "1px solid var(--hairline)" }}>
           <CheckCircle size={15} />
           {message}
         </div>
       )}
       {status === "error" && (
-        <div className="alert alert-error fade-in">
+        <div className="fade-in" style={{ padding: "12px", background: "var(--surface-soft)", color: "var(--error)", borderRadius: "var(--rounded-sm)", display: "flex", gap: "8px", alignItems: "center", fontSize: "14px", border: "1px solid var(--hairline)" }}>
           <AlertCircle size={15} />
           {message}
         </div>

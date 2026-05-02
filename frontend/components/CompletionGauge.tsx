@@ -23,20 +23,20 @@ export default function CompletionGauge({
     pct >= 75
       ? "var(--green)"
       : pct >= 45
-      ? "var(--blue)"
+      ? "var(--ink)"
       : pct >= 25
       ? "var(--amber)"
-      : "var(--red)";
+      : "var(--primary)";
 
   return (
-    <div className="gauge-container">
+    <div className="gauge-container" style={{ position: "relative" }}>
       <svg width={size} height={size} style={{ transform: "rotate(-90deg)" }}>
         <circle
           cx={cx}
           cy={cy}
           r={radius}
           fill="none"
-          stroke="var(--bg-elevated)"
+          stroke="var(--hairline-soft)"
           strokeWidth={10}
         />
         <circle
